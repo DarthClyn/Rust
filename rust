@@ -1,0 +1,250 @@
+ans1
+
+fn main() {
+    //palindrome or not
+    let s = "HelleH";
+    println!("\"{}\" is a palindrome: {}", s, s.chars().eq(s.chars().rev()));
+}
+
+ans2
+
+fn main() {
+    // First occurrence
+    let arr = [1,2,2,2,3,4,5];
+    let t =2;
+
+    let mut l =0;
+    let mut r =arr.len() as isize - 1;
+    let mut idx =0; 
+
+    while l<=r {
+        let mid =(l+r)/2;
+        if arr[mid as usize] == t{
+            idx = mid as usize;
+            r = mid-1;
+        } else if arr[mid as usize]<t{
+            l = mid+1;
+        } else {
+            r = mid-1;}
+    }
+
+    println!("The first occurrence of {} is at index {}", t, idx);
+}
+
+ans3
+
+fn main() {
+//shortest word
+    let s = "One To Threetree Fouur Five S";
+    let words: Vec<&str> = s.split_whitespace().collect();
+    let mut sol = words[0];
+
+    for word in words {
+        if word.len()<sol.len() {
+            sol = word;}
+    }
+    println!("The shortest word is: {}",sol);
+}
+
+
+ans4
+//prime number
+fn is_prime(num: u64) -> bool {
+    if num <= 1 {
+        return false; 
+    }
+    for i in 2..=(num as f64).sqrt() as u64{
+        if num %i ==0 {
+            return false; 
+        }
+    }
+    return true; 
+}
+fn main() {
+    let x=17; 
+    if is_prime(x) {
+        println!("{} is prime",x);
+    } else {println!("{} is not prime",x);}
+}
+
+
+ans5
+
+fn find_median(arr: &[i32]) -> f64 {
+    let n = arr.len();
+    if n % 2 == 0 {
+        let mid_right =arr[n/2];
+        let mid_left =arr[n/2-1];
+        return (mid_right+mid_left) as f64/2.0;
+    } else {
+        return arr[n/2] as f64;
+    }
+}
+fn main() {
+//median of array
+    let arr = [1,2,3,4,5,6,7];
+    let median = find_median(&arr);
+    println!("The median of the array is: {}",median);
+}
+
+
+ans6
+//longest common prefix
+
+fn lcs(strings: &[&str]) -> String {
+    if strings.is_empty() {
+        return String::new();
+    }
+    let mut prefix = strings[0].to_string();
+
+    for word in &strings[1..] {
+        while !word.starts_with(&prefix) {
+            prefix.pop();
+        }
+        if prefix.is_empty() {
+            break;}
+    }
+    return prefix
+}
+fn main() {
+    let strings = vec!["hello","hell","helicopter"];
+    let sol = lcs(&strings);
+    println!("The longest common prefix is: {}",sol);
+}
+
+
+ans 7
+
+fn kth_smallest(arr: &[i32],k: usize) -> i32 {
+    let mut sorted_arr = arr.to_vec(); 
+    sorted_arr.sort();
+    return sorted_arr[k - 1]
+}
+fn main() {
+//kth smallest element
+    let arr = [7,10,4,3,20,15];
+    let k = 3;
+    let sol = kth_smallest(&arr, k);
+    println!("The {}th smallest element is: {}", k,sol);
+}
+
+ans8
+//depth of tree
+struct TreeNode {
+    val: i32,
+    left: Option<Box<TreeNode>>,
+    right: Option<Box<TreeNode>>,
+}
+impl TreeNode {
+    fn new(val: i32) -> Self {
+        TreeNode {
+            val,
+            left: None,
+            right: None,}
+    }}
+fn main() {
+    let mut root = TreeNode::new(3);
+    let mut lft = TreeNode::new(9);
+    let mut ryt = TreeNode::new(20);
+    let mut glft = TreeNode::new(15);
+    let mut gryt = TreeNode::new(7);
+
+    ryt.left = Some(Box::new(glft));
+    ryt.right = Some(Box::new(gryt));
+    root.left = Some(Box::new(lft));
+    root.right = Some(Box::new(ryt));
+    println!("Max depth of the tree is: {}", max_depth(Some(Box::new(root))));
+}
+
+fn max_depth(root: Option<Box<TreeNode>>) -> i32 {
+    match root {
+        Some(node)=>{
+            let left_depth = max_depth(node.left);
+            let right_depth = max_depth(node.right);
+            1 + left_depth.max(right_depth)
+        }
+        None=>0,
+    }
+}
+
+ans9
+//reverse string
+fn main() {
+    let mut s = String::from("gnidoc");
+    let mut revs = String::new();
+    for c in s.chars().rev() {
+        revs.push(c);
+    }
+    println!("Reversed string: {}", revs);
+}
+
+ans 10
+//prime number
+fn is_prime(num: u64) -> bool {
+    if num <= 1 {
+        return false; 
+    }
+    for i in 2..=(num as f64).sqrt() as u64{
+        if num %i ==0 {
+            return false; 
+        }
+    }
+    return true; 
+}
+fn main() {
+    let x=17; 
+    if is_prime(x) {
+        println!("{} is prime",x);
+    } else {println!("{} is not prime",x);}
+}
+
+ans11
+
+fn merge(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {
+    let mut arr3 = Vec::new();
+    let (mut i,mut j) = (0, 0);
+    while i < arr1.len() && j < arr2.len() {
+        if arr1[i] < arr2[j] {
+            arr3.push(arr1[i]);
+            i+=1;
+        } else {
+            arr3.push(arr2[j]);
+            j+=1;
+}}
+    while i < arr1.len() {
+        arr3.push(arr1[i]);
+        i+=1;}
+    while j < arr2.len() {
+        arr3.push(arr2[j]);
+        j+=1;}
+    return arr3
+}
+fn main() {
+    let arr1 = [1,3,5,7,9];
+    let arr2 = [2,4,6,8,10];
+    let sol = merge(&arr1, &arr2);
+    println!("Merged array: {:?}",sol);
+}
+
+ans12
+
+//max subarr
+
+
+fn mx_sub(arr: &[i32]) -> i32 {
+    let mut sol = arr[0];
+    let mut curmax = arr[0];
+
+    for &num in arr.iter().skip(1) {
+        curmax = curmax.max(num);
+        sol = sol.max(curmax);
+    }
+    return sol
+}
+fn main() {
+    let arr = [-2,1,-3,4,-1,2,1,-5,4];
+    let ans = mx_sub(&arr);
+    println!("Maximum subarray sum: {}", ans);
+}
+
+
